@@ -1,7 +1,28 @@
 doctype html
-html
+html(lang="en")
   head
     title= title
+    meta(charset='utf-8')
+    meta(name="description" content="Jossify. The side where you can manage your favorite music")
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    link(rel="icon" href="/images/icon_music.ico")
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet")
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    block extraHeader
   body
-    block content
+    input(type="checkbox" id="active")
+    <label for="active" class="menu-btn"><span></span></label>
+    <label for="active" class="close"></label>
+    div(class="wrapper")
+      ul
+        li <a href="/music/">Home</a>
+        li <a href="/music/artist">Artists</a>
+        li <a href="/music/song">Songs</a>
+        li <a href="/music/album">Albums</a>
+        li <a href="/music/genre">Genres</a>
+
+    div(class="main")
+      block content 
