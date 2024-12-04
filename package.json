@@ -1,0 +1,11 @@
+{
+  "name": "crud-project-node",
+  "version": "1.0.0",
+  "description": "Github Project to keep coding and learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JossaDev",
+  "license": "ISC"
+}
