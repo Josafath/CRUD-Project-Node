@@ -10,6 +10,20 @@ var catalogRouter = require('./routes/music');
 
 var app = express();
 
+//Set up mongoose connection
+
+mongoose.set("strictQuery", false);
+
+const dev_db_url =
+  "mongodb+srv://jossa:josafath1234@cluster0.cojoign.mongodb.net/music_db?retryWrites=true&w=majority&appName=Cluster0";
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
+
+main().catch((err) => console.log(err));
+async function main() {
+  await mongoose.connect(mongoDB);
+}
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
