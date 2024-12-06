@@ -3,36 +3,39 @@ const Artist = require('../models/artist');
 const Genre = require('../models/genre');
 const Song = require('../models/song');
 
-const async = require('async');
+const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require('express-validator');
 
-exports.index = (req, res) => {
-    async.parallel({
-            albums_count: (callback) => {
-                Album.countDocuments({}, callback);
-            },
-            artists_count: (callback) => {
-                Artist.countDocuments({}, callback);
-            },
-            songs_count: (callback) => {
-                Song.countDocuments({}, callback);
-            },
-            genres_count: (callback) => {
-                Genre.countDocuments({}, callback);
-            }
-        },
-        function(err, results) {
-            res.render('index', { title: "Jossify", error: err, data: results })
-        });
-};
 
 
-exports.artist_list = (req, res, next) => {
-    Artist.find({}, (err, artist_list) => {
-        if (err) { return next(err) }
-        res.render('artist_list', { title: "Artists", artists: artist_list });
-    });
-};
+exports.index = asyncHandler(async (req, res, next) => {
+    const [
+        numAlbums,
+        numArtists,
+        numGenres,
+        numSongs,
+      ] = await Promise.all([
+        Album.countDocuments({}).exec(),
+        Artist.countDocuments({}).exec(),
+        Song.countDocuments({}).exec(),
+        Genre.countDocuments({}).exec(),
+      ]);
+    
+      res.render("index", {
+        title: "Jossify",
+        album_count: numAlbums,
+        artist_count: numArtists,
+        song_count: numSongs,
+        genre_count: numGenres,
+      });
+});
+
+
+exports.artist_list = asyncHandler(async (req, res, next) => {
+    const allArtists = await Artist.find({})
+    .exec();
+    res.render("artist_list", {title: "Artist List", artists: allArtists})
+});
 
 exports.artist_create_get = (req, res, next) => {
     res.render('create_artist', { title: "Create Artist" });
