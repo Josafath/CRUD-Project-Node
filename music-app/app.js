@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -12,16 +13,11 @@ var app = express();
 
 //Set up mongoose connection
 
-mongoose.set("strictQuery", false);
-
-const dev_db_url =
-  "mongodb+srv://jossa:josafath1234@cluster0.cojoign.mongodb.net/music_db?retryWrites=true&w=majority&appName=Cluster0";
+const dev_db_url = 'mongodb+srv://jossa:josafath1234@cluster0.olcxk.mongodb.net/music_db?retryWrites=true';
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
-
-main().catch((err) => console.log(err));
-async function main() {
-  await mongoose.connect(mongoDB);
-}
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB Error Connection: '));
 
 
 // view engine setup
